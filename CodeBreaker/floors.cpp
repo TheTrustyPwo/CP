@@ -1,29 +1,21 @@
 #include <bits/stdc++.h>
 using namespace std;
-typedef long long ll;
 
-vector<int> dsu;
+int p[10000000];
 
-int find(int n) {
-	if (dsu[n] == n) return n;
-	return dsu[n] = find(dsu[n]);
-}
-
-void merge(int a, int b) {
-	a = find(a), b = find(b);
-	if (a != b) {
-		dsu[a] = b;
-	}
+int find(const int &x) {
+	if (p[x] == x) return x;
+	return p[x] = find(p[x]);
 }
 
 int32_t main() {
 	ios::sync_with_stdio(false); cin.tie(NULL); cout.tie(NULL);
 	int n, c; cin >> n >> c;
-	for (int i = 0; i <= n; i++) dsu.push_back(i);
+	for (int i = 1; i <= n; i++) p[i] = i;
 	while (c--) {
-		int q; cin >> q;
-		int p = find(q);
-		cout << p << "\n";
-		merge(p, (p - 1 == 0 ? n : p - 1));
+		int x; cin >> x;
+		x = find(x);
+		cout << x << '\n';
+		p[x] = (x == 1 ? n : x - 1);
 	}
 }

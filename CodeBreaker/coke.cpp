@@ -3,7 +3,9 @@ using namespace std;
 typedef long long ll;
 
 bool cmp(const pair<int, int> &a, const pair<int, int> &b) {
-	return (float) ((float) a.first / (float) a.second) > (float) ((float) b.first / (float) b.second);
+	double x = ((double) a.second) / a.first;
+	double y = ((double) b.second) / b.first;
+	return x < y;
 }
 
 int32_t main() {

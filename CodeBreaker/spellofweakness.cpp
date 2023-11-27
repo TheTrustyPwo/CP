@@ -1,33 +1,47 @@
 #include <bits/stdc++.h>
 using namespace std;
-typedef long long ll;
+#define int long long
 
 int32_t main() {
 	ios::sync_with_stdio(false); cin.tie(NULL); cout.tie(NULL);
-	int n, d, k, cnt = 0; cin >> n >> d >> k;
-	int e[n]; for (int i = 0; i < n; i++) cin >> e[i];
-	sort(e, e + n);
-	queue<int> q;
-	for (int i = 0; i < n; i++) {
-		if (d <= 0) {
-			cout << cnt - 1;
+	int n, d, k; cin >> n >> d >> k;
+	int a[n]; for (int i = 0; i < n; i++) cin >> a[i];
+	sort(a, a + n);
+	
+	int cnt = 0;
+	for (int i = 0; i < k; i++) {
+		int cost = a[i] / 2;
+		if (d < cost) {
+			cout << cnt;
 			return 0;
 		}
-		if (k == 0) {
-			int u = q.front();
-			if (!q.empty() && d - e[i] / 2 - u + u / 2 >= 0) {
-				q.pop();
-				q.push(e[i] / 2);
-				d = d - e[i] / 2 - u + u / 2;
-			} else {
+		d -= cost;
+		cnt++;
+	}
+	
+	queue<int> q;
+	for (int i = 0; i < k; i++) q.push(i);
+	
+	for (int i = k; i < n; i++) {
+		if (q.empty()) {
+			if (d < a[i]) {
 				cout << cnt;
 				return 0;
 			}
+			d -= a[i];
+			cnt++;
 		} else {
-			q.push(e[i] / 2);
-			d -= e[i] / 2;
-			k--; cnt++;
+			int t = q.front(); q.pop();
+			int cost = a[t] / 2 + (a[t] % 2 != 0) + a[i] / 2;
+			if (d < cost) {
+				cout << cnt;
+				return 0;
+			}
+			d -= cost;
+			cnt++;
+			q.push(i);
 		}
 	}
+	
 	cout << cnt;
 }

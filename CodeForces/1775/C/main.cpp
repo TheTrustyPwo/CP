@@ -1,19 +1,22 @@
 #include <bits/stdc++.h>
 using namespace std;
-typedef unsigned long long ll;
+typedef long long ll;
 
 void test_case(int test) {
-    ll m, x; cin >> m >> x;
-    ll k = 0;
-    for (ll i = 0; i < 64; i++)
-		if ((x & (1ll << i)) && !(m & (1ll << i))) { cout << -1 << '\n'; return; }
-		else if (!(x & (1ll << i)) && (m & (1ll << i))) k |= (1ll << i);
-    if (m == x) { cout << m << '\n'; return; }
-    ll r = 0; while (k >>= 1ll) r++;
-    for (ll i = 0; i < r; i++) m &= ~(1ll << i);
-    if (r >= 63ll) { cout << -1 << '\n'; return; }
-    m |= (1ll << (r));
-    cout << m << '\n';
+    int n; cin >> n; bitset<200005> b(0);
+    for (int i = 0; i < n; i++) {
+        int k; cin >> k; bitset<200005> c(0);
+        for (int j = 0; j < k; j++) {
+            int p; cin >> p;
+            c.set(p);
+        }
+        if ((b | c) == b) {
+            cout << "YES\n";
+            return;
+        }
+        b |= c;
+    }
+    cout << "NO\n";
 }
 
 int32_t main() {

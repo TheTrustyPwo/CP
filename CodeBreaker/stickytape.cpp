@@ -1,27 +1,32 @@
 #include <bits/stdc++.h>
-
 using namespace std;
+#define int long long
 
-const int N = 5e6 + 5;
+#pragma GCC optimize("O3,unroll-loops")
+#pragma GCC target("avx2,bmi,bmi2,lzcnt,popcnt")
 
-int n, m;
-int l[N];
-int dp[N];
+int n, m, x;
+priority_queue<int, vector<int>, greater<int>> pq;
 
-int main() {
-cin >> n >> m;
-for (int i = 1; i <= m; i++) {
-cin >> l[i];
+inline int readInt() {
+	int x=0; char ch=getchar_unlocked(); bool s=1;
+	while(ch<'0'||ch>'9'){if(ch=='-')s=0;ch=getchar_unlocked();}
+	while(ch>='0'&&ch<='9'){x=(x<<3)+(x<<1)+ch-'0';ch=getchar_unlocked();}
+	return s?x:-x;
 }
-sort(l + 1, l + m + 1);
-reverse(l + 1, l + m + 1);
-memset(dp, 0x3f, sizeof(dp));
-dp[0] = 0;
-for (int i = 1; i <= m; i++) {
-for (int j = l[i]; j <= n; j++) {
-dp[j] = min(dp[j], dp[j - l[i]] + l[i]);
-}
-}
-cout << dp[n] << endl;
-return 0;
+
+int32_t main() {
+	ios::sync_with_stdio(false); cin.tie(NULL); cout.tie(NULL);
+	n = readInt(), m = readInt();
+	for (int i = 0; i < m; i++) pq.push(readInt());
+	
+	int ans = 0;
+	while (pq.size() > 1) {
+		int u = pq.top(); pq.pop();
+		int s = u + pq.top(); pq.pop();
+		ans += s;
+		pq.push(s);
+	}
+	
+	cout << ans;
 }

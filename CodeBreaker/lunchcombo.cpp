@@ -5,13 +5,24 @@ const int MAXN = 300005;
 
 int m, s, k, a[MAXN], b[MAXN], preb[MAXN];
 
-bool valid(int d) {
+int count(int d) {
 	int cnt = 0;
 	for(int i = 0; i < m; i++) {
+		if (a[i] >= d) break;
 		int combos_to_buy = upper_bound(b, b + s, d - a[i]) - b;
 		cnt += combos_to_buy;
 	}
-	return cnt >= k;
+	return cnt;
+}
+
+int sum(int d) {
+	int sum = 0;
+	for (int i = 0; i < m; i++) {
+		if (a[i] >= d) break;
+		int buy = upper_bound(b, b + s, d - a[i]) - b;
+		sum += (a[i] * buy + preb[buy - 1]);
+	}
+	return sum;
 }
 
 int32_t main() {
@@ -27,12 +38,11 @@ int32_t main() {
 	
 	int l = 0, r = 1e18;
 	while (l < r) {
-		int m = (l + r) >> 1;
-		if (valid(m)) r = m;
-		else l = m + 1;
+		int mid = (l + r) >> 1;
+		if (count(mid) >= k) r = mid;
+		else l = mid + 1;
 	}
-	
-	
-	
-	cout << l;
+
+	int ans = sum(l - 1) + (k - count(l - 1)) * l;
+	cout << ans;
 }

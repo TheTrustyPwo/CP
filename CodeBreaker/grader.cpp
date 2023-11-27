@@ -1,35 +1,22 @@
-#include "lampposts.h"
-#include <bits/stdc++.h>
+#include "graphcraft.h"
+#include <cstdio>
+#include <vector>
+#include <iostream>
 using namespace std;
 
-static int L, N, A[100005], userans[100005], Q, userQ;
-
-int nearest_lamppost(int X) {
-	if (X < 0 || X > L) {
-		printf("gug_reporting_string\nX out of range.\n");
-		exit(0);
-	}
-	userQ++;
-	if (userQ > Q) {
-		printf("gug_reporting_string\nToo many queries made.\n");
-		exit(0);
-	} 
-	int pos = lower_bound(A, A + N, X) - A;
-	if (pos == N) return pos - 1;
-	else if (pos == 0) return pos;
-	else {
-		if (abs(A[pos] - X) < abs(A[pos - 1] - X)) return pos;
-		else return pos - 1;
-	}
-}
+static int N, C;
+static vector< pair<int, int> > V[100000];
 
 int main() {
-	scanf("%d%d%d", &L, &N, &Q);
-	for (int i = 0; i < N; i++) scanf("%d", &A[i]);
-	find_lampposts(L, N, userans);
-	printf("gug_reporting_string\n");
-	for (int i = 0; i < N; i++) printf("%d ", userans[i]);
-	printf("\n");
-	printf("%d queries made (out of %d).\n", userQ, Q);
+    scanf("%d%d", &N, &C);
+    for ( int i = 1; i < N; i++ ) {
+        int T;
+        scanf("%d", &T);
+        for ( int j = 0; j < T; j++ ) {
+            int A, B;
+            scanf("%d%d", &A, &B);
+            V[i].push_back(make_pair(A, B));
+        }
+    }
+    printf("%d\n", graphcraft(N, C, V));
 }
-

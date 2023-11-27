@@ -2,9 +2,20 @@
 using namespace std;
 typedef long long ll;
 
+bitset<200005> b, c;
+
 void test_case(int test) {
-    int n; cin >> n;
-    
+    int n, k, p; bool ans = 0; cin >> n; b.reset();
+    while (n--) {
+        cin >> k; c.reset();
+        while (k--) {
+            cin >> p;
+            c.set(p);
+        }
+        if ((b | c) == b) ans = 1;
+        b |= c;
+    }
+    cout << (ans ? "Yes\n" : "No\n");
 }
 
 int32_t main() {

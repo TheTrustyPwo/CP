@@ -1,67 +1,71 @@
 #include <bits/stdc++.h>
 using namespace std;
+typedef long long ll;
+const int m = 1e9 + 7;
 
-// define modulo
-const int MOD = 1e9 + 7;
-
-// Fenwick tree data structure
-struct FenwickTree {
-  // vector to store the tree data
-  vector<int> tree;
-
-  // constructor
-  FenwickTree(int n) : tree(n + 1) {}
-
-  // function to update a value in the tree
-  void update(int i, int val) {
-    for (; i < tree.size(); i += i & -i) {
-      tree[i] = (tree[i] + val) % MOD;
-    }
-  }
-
-  // function to query a prefix sum
-  int query(int i) {
+struct Vertex {
+    int left, right;
     int sum = 0;
-    for (; i > 0; i -= i & -i) {
-      sum = (sum + tree[i]) % MOD;
+    Vertex *left_child = nullptr, *right_child = nullptr;
+
+    Vertex(int lb, int rb) {
+        left = lb;
+        right = rb;
     }
-    return sum;
-  }
+
+    void extend() {
+        if (!left_child && left + 1 < right) {
+            int t = (left + right) / 2;
+            left_child = new Vertex(left, t);
+            right_child = new Vertex(t, right);
+        }
+    }
+
+    void add(int k, int x) {
+        extend();
+        sum += x; sum %= m;
+        if (left_child) {
+            if (k < left_child->right)
+                left_child->add(k, x);
+            else
+                right_child->add(k, x);
+        }
+    }
+
+    int get_sum(int lq, int rq) {
+        if (lq <= left && right <= rq)
+            return sum;
+        if (max(left, lq) >= min(right, rq))
+            return 0;
+        extend();
+        return (left_child->get_sum(lq, rq) + right_child->get_sum(lq, rq)) % m;
+    }
 };
 
-int main() {
-  // read the input
-  int N;
-  cin >> N;
-  
-  int dp[N];
+void normalize(vector<int> &v) {
+	vector<int> aux = v;
+	sort(aux.begin(), aux.end());
+	aux.erase(unique(aux.begin(), aux.end()), aux.end());
+	for(size_t i = 0; i < v.size(); i++)
+		v[i] = lower_bound(aux.begin(), aux.end(), v[i]) - aux.begin() + 1;
+}
 
-  vector<int> A(N);
-  for (int i = 0; i < N; i++) {
-    cin >> A[i];
-  }
 
-  // initialize an empty Fenwick tree
-  FenwickTree ft(N);
-
-  // initialize the answer to 0
-  int ans = 0;
-
-  // iterate over all indices i in the array
-  for (int i = 0; i < N; i++) {
-
-    // update the value of dp[i] using the Fenwick tree
-    dp[i] = ft.query(A[i]);
-
-    // add dp[i] to the answer
-    ans = (ans + dp[i]) % MOD;
-
-    // update the Fenwick tree with the new value of dp[i]
-    ft.update(A[i], dp[i]);
-  }
-
-  // print the final answer
-  cout << ans << endl;
-
-  return 0;
+int32_t main() {
+	ios::sync_with_stdio(false); cin.tie(NULL); cout.tie(NULL);
+	int n; cin >> n; vector<int> a(n), dp(n);
+	for (int i = 0; i < n; i++) cin >> a[i];
+	normalize(a);
+	
+	Vertex *v = new Vertex(0, 1e6);
+	
+	dp[0] = 1; v->add(a[0], 1);
+	for (int i = 1; i < n; i++) {
+		dp[i] = (1 + v->get_sum(0, a[i])) % m;
+		v->add(a[i], dp[i]);
+	}
+	
+	int ans = 0;
+	for (int i = 0; i < n; i++) { ans += dp[i]; ans %= m; }
+	cout << ans;
 }

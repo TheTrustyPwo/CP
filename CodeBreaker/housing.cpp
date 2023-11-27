@@ -2,14 +2,13 @@
 using namespace std;
 typedef long long ll;
 
+int n, dp[105];
+
 int32_t main() {
 	ios::sync_with_stdio(false); cin.tie(NULL); cout.tie(NULL);
-	int n; cin >> n;
-	int dp[105];
-	for (int i = 0; i <= 100; i++) dp[i] = 1;
-	for (int i = 10; i <= 100; i++)
-		for (int j = 5; j <= (i / 2); j++)
-			if (j == i - j) dp[i] += dp[j];
-			else dp[i] += (dp[j] * dp[i - j]);
+	cin >> n; dp[0] = 1;
+	for (int i = 5; i <= n; i++) for (int j = i; j <= n; j++) {
+		dp[j] += dp[j - i];
+	}
 	cout << dp[n];
 }

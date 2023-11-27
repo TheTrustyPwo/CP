@@ -1,27 +1,28 @@
 #include <bits/stdc++.h>
+#include <ext/pb_ds/assoc_container.hpp>
 using namespace std;
-typedef long long ll;
+
+int n, t, a;
+vector<pair<int, int>> v;
+__gnu_pbds::gp_hash_table<int, int> del;
 
 int32_t main() {
 	ios::sync_with_stdio(false); cin.tie(NULL); cout.tie(NULL);
-	int n; cin >> n;
-	stack<int> st;
-	unordered_set<int> deleted;
-	unordered_map<int, int> m;
-	for (int i = 0; i < n; i++) {
-		int t, a; cin >> t;
+	cin >> n;
+	for (int i = 1; i <= n; i++) {
+		cin >> t;
 		if (t == 1) {
 			cin >> a;
-			st.push(a);
+			v.push_back({a, i});
 		} else if (t == 2) {
 			cin >> a;
-			m[a] = i;
+			del[a] = i;
 		} else if (t == 3) {
-			st.pop();
+			while (!v.empty() && v.back().second <= del[v.back().first]) v.pop_back();
+			v.pop_back(); 
 		} else {
-			if (st.empty()) cout << -1 << endl;
-			else cout << st.top() << endl;
+			while (!v.empty() && v.back().second <= del[v.back().first]) v.pop_back();
+			cout << (v.empty() ? -1 : v.back().first) << '\n';
 		}
-		while (!st.empty() && m[st.top()] > 0) { st.pop(); m[st.top()]--; }
 	}
 }
