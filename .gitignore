@@ -1548,9 +1548,6 @@ build/
 
 # Random Files and exe
 *.exe
-*.geany
 *.o
-*.sublime-project
-*.sublime-workspace
 .vscode/*
 .cph/*
