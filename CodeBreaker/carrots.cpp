@@ -2,54 +2,28 @@
 using namespace std;
 #define int long long
 
+int n, k, cost = 0;
+priority_queue<pair<int, pair<int, int>>> pq;
+
+int f(int x, int y) {
+	int m = x % y;
+	return (y - m) * (x / y) * (x / y) + m * ((x / y) + 1) * ((x / y) + 1);
+}
+
 int32_t main() {
 	ios::sync_with_stdio(false); cin.tie(NULL); cout.tie(NULL);
-	int n, k; cin >> n >> k;
-	int a[n]; for (int i = 0; i < n; i++) cin >> a[i];
-	
-	int l = 1, r = *max_element(a, a + n), ans;
-	while (l <= r) {
-		int m = l + (r - l) / 2;
-		
-		int cnt = 0;
-		for (int i = 0; i < n; i++) {
-			cnt += (a[i] / m + (a[i] % m != 0));
-		}
-		
-		if (cnt <= k) {
-			ans = m;
-			r = m - 1;
-		} else l = m + 1;
-	}
-	
-	int total = 0, cnt = 0;
-	map<int, int, greater<int>> mp;
+	cin >> n >> k;
 	for (int i = 0; i < n; i++) {
-		if (a[i] <= ans) {
-			total += a[i] * a[i];
-			mp[a[i]]++;
-		} else {
-			total += ((a[i] / ans - 1) * ans * ans);
-			mp[ans] += (a[i] / ans - 1);
-			if (a[i] % ans == 0) {
-				total += ans * ans;
-				mp[ans]++;
-			} else {
-				int f = (ans + (a[i] % ans)) / 2;
-				int c = ans + (a[i] % ans) - f;
-				total += (f * f + c * c);
-				mp[f]++;
-				mp[c]++;
-			}
-		}
-		cnt += (a[i] / ans + (a[i] % ans != 0));
+		int x; cin >> x;
+		cost += x * x;
+		pq.push(make_pair(f(x, 1) - f(x, 2), make_pair(x, 2)));
 	}
 	
-	int diff = k - cnt;
-	for (const auto &p : mp) {
-		int replace = min(p.first, diff);
-		
+	for (int i = 0; i < k - n; i++) {
+		cost -= pq.top().first;
+		int a = pq.top().second.first, b = pq.top().second.second; pq.pop();
+		pq.push(make_pair(f(a, b) - f(a, b + 1), make_pair(a, b + 1)));
 	}
 	
-	cout << total;
+	cout << cost;
 }
