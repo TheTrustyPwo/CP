@@ -28,7 +28,7 @@ long_line_behaviour=1
 long_line_column=72
 
 [files]
-current_page=314
+current_page=319
 FILE_NAME_0=113;C++;0;EUTF-8;1;1;0;C%3A%5CUsers%5CShuce%5Cprojects%5CCodeBreaker%5Cpandaeyes.cpp;0;4
 FILE_NAME_1=358;C++;0;EUTF-8;1;1;0;C%3A%5CUsers%5CShuce%5Cprojects%5CCodeBreaker%5Cchinese.cpp;0;4
 FILE_NAME_2=1030;C++;0;EUTF-8;1;1;0;C%3A%5CUsers%5CShuce%5Cprojects%5CCodeBreaker%5Ccar.cpp;0;4
@@ -344,6 +344,11 @@ FILE_NAME_311=193;C++;0;EUTF-8;1;1;0;C%3A%5CUsers%5CShuce%5Cprojects%5CCodeBreak
 FILE_NAME_312=359;C++;0;EUTF-8;1;1;0;C%3A%5CUsers%5CShuce%5Cprojects%5CCodeBreaker%5Catleasttripledate.cpp;0;4
 FILE_NAME_313=49;C++;0;EUTF-8;1;1;0;C%3A%5CUsers%5CShuce%5Cprojects%5CCodeBreaker%5Czanesgift.cpp;0;4
 FILE_NAME_314=719;C++;0;EUTF-8;1;1;0;C%3A%5CUsers%5CShuce%5Cprojects%5CCodeBreaker%5Cyoutubealgo.cpp;0;4
+FILE_NAME_315=0;C++;0;EUTF-8;1;1;0;C%3A%5CUsers%5CShuce%5Cprojects%5CCodeBreaker%5Csos.cpp;0;4
+FILE_NAME_316=868;C++;0;EUTF-8;1;1;0;C%3A%5CUsers%5CShuce%5Cprojects%5CCodeBreaker%5Ckoopatroopacave.cpp;0;4
+FILE_NAME_317=550;C++;0;EUTF-8;1;1;0;C%3A%5CUsers%5CShuce%5Cprojects%5CCodeBreaker%5Creplacingpavement.cpp;0;4
+FILE_NAME_318=1839;C++;0;EUTF-8;1;1;0;C%3A%5CUsers%5CShuce%5Cprojects%5CCodeBreaker%5Cghostrule.cpp;0;4
+FILE_NAME_319=581;C++;0;EUTF-8;1;1;0;C%3A%5CUsers%5CShuce%5Cprojects%5CCodeBreaker%5Cboxes2.cpp;0;4
 
 [build-menu]
 C++FT_00_LB=_Compile

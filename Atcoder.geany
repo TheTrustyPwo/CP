@@ -27,7 +27,7 @@ long_line_behaviour=1
 long_line_column=72
 
 [files]
-current_page=15
+current_page=16
 FILE_NAME_0=244;C++;0;EUTF-8;1;1;0;C%3A%5CUsers%5CShuce%5Cprojects%5CAtcoder%5Cwelcome.cpp;0;4
 FILE_NAME_1=170;C++;0;EUTF-8;1;1;0;C%3A%5CUsers%5CShuce%5Cprojects%5CAtcoder%5Cfrog1.cpp;0;4
 FILE_NAME_2=436;C++;0;EUTF-8;1;1;0;C%3A%5CUsers%5CShuce%5Cprojects%5CAtcoder%5Cfrog2.cpp;0;4
@@ -44,3 +44,4 @@ FILE_NAME_12=0;C++;0;EUTF-8;1;1;0;C%3A%5CUsers%5CShuce%5Cprojects%5CAtcoder%5Cab
 FILE_NAME_13=97;C++;0;EUTF-8;1;1;0;C%3A%5CUsers%5CShuce%5Cprojects%5CAtcoder%5Cabc332_b.cpp;0;4
 FILE_NAME_14=160;C++;0;EUTF-8;1;1;0;C%3A%5CUsers%5CShuce%5Cprojects%5CAtcoder%5Cabc332_c.cpp;0;4
 FILE_NAME_15=1612;C++;0;EUTF-8;1;1;0;C%3A%5CUsers%5CShuce%5Cprojects%5CAtcoder%5Cabc332_d.cpp;0;4
+FILE_NAME_16=0;C++;0;EUTF-8;1;1;0;C%3A%5CUsers%5CShuce%5Cprojects%5CAtcoder%5Cabc334_c.cpp;0;4

@@ -2,28 +2,70 @@
 using namespace std;
 typedef long long ll;
 
-int n, q, p[100005], a[100005];
-vector<int> lst[100005];
-char ch; int x, y;
+int p[100005], color[100005], take = 0;
+vector<pair<int, int>> g[100005];
+bool visited[100005], amos = true;
 
-void make_set(int v) {
-	a[v] = 0, p[v] = v, lst[v] = vector<int>(1, v);
-}
-
-void merge(int u, int v) {
-	u = p[u], v = p[v];
-	if (u == v) return;
-	if (lst[u].size() < lst[v].size()) swap(u, v);
-	while (!lst[v].empty()) {
-		int x = lst[v].back();
-		p[x] = u;
-		lst[u].push_back(x);
-		lst[v].pop_back();
+void dfs(int v, int col) {
+	visited[v] = true;
+	color[v] = col;
+	take++;
+	for (const auto it : g[v]) {
+		if (visited[it.first]) {
+			if ((color[it.first] ^ it.second) != color[v])
+				amos = false;
+		} else {
+			dfs(it.first, col ^ it.second);
+		}
 	}
+	
+	if (p[v] == 0) amos = false;
 }
 
-void update(int v, bool b) { // 0 = invert, 1 = set U
-	for (const int &u : lst[v]) a[u] = (b ? 2 : !a[u]);
+void solve() {
+	int n, m; cin >> n >> m;
+	for (int i = 0; i <= n; i++) g[i].clear();
+	memset(visited, 0, sizeof(visited));
+	
+	for (int i = 0; i <= n; i++) p[i] = i;
+	
+	char tp; int a, b;
+	for (int i = 0; i < m; i++) {
+		cin >> tp;
+		if (tp == '+') {
+			cin >> a >> b;
+			p[a] = p[b];
+		} else if (tp == '-') {
+			cin >> a >> b;
+			p[a] = -p[b];
+		} else {
+			cin >> a;
+			if (tp == 'T') p[a] = n + 1;
+			else if (tp == 'F') p[a] = -(n + 1);
+			else p[a] = 0;
+		}
+	}
+	
+	for (int i = 1; i <= n; i++) {
+		if (abs(p[i]) == n + 1 || p[i] == 0) continue;
+		if (p[i] > 0) {
+			g[p[i]].push_back({i, 0});
+			g[i].push_back({p[i], 0});
+		} else {
+			g[-p[i]].push_back({i, 1});
+			g[i].push_back({-p[i], 1});
+		}
+	}
+	
+	int cnt = 0;
+	for (int i = 1; i <= n; i++) {
+		if (visited[i]) continue;
+		take = 0, amos = true;
+		dfs(i, 0);
+		if (!amos) cnt += take;
+	}
+	
+	cout << cnt << '\n';
 }
 
 int32_t main() {
@@ -31,39 +73,7 @@ int32_t main() {
 	freopen("tribool.in", "r", stdin);
     freopen("tribool.out", "w", stdout);
 	int c, t; cin >> c >> t;
-	if (c == 1) { cout << "0\n3\n1"; return 0; }
 	while (t--) {
-		int n, q; cin >> n >> q;
-		for (int i = 1; i <= n; i++) make_set(i);
-		while (q--) {
-			cin >> ch;
-			if (ch == '+') {
-				cin >> x >> y;
-				if (a[x] == a[y]) continue;
-				x = p[x], y = p[y];
-				if (x == y) update(x, 1);
-				else {
-					if (a[x] == 2) update(y, 1);
-					else if (a[y] == 2) update(x, 1);
-					else update((lst[x].size() < lst[y].size() ? x : y), 0);
-					merge(x, y);
-				}
-			} else if (ch == '-') {
-				cin >> x >> y;
-				if (!(a[x] == a[y] && a[x] != 2)) continue;
-				x = p[x], y = p[y];
-				if (x == y) {
-					update(x, 1);
-				} else {
-					if (a[x] == 2) update(y, 1);
-					else if (a[y] == 2) update(x, 1);
-					else update((lst[x].size() < lst[y].size() ? x : y), 0);
-					merge(x, y);
-				}
-			}
-		}
-		int cnt = 0;
-		for (int i = 1; i <= n; i++) if (a[i] == 2) cnt++;
-		cout << cnt << '\n';
+		solve();
 	}
 }
