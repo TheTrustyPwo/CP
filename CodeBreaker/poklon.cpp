@@ -1,49 +1,59 @@
 #include <bits/stdc++.h>
 using namespace std;
 typedef long long ll;
-typedef unordered_map<int, int> umap;
 
-umap t[1048576];
-int n, q, a[500005];
+int n, q, ft[500005], pv[500005], ppv[500005], ans[500005];
+pair<pair<int, int>, int> queries[500005];
+map<int, int> mp;
 
-umap combine(const umap &m1, const umap &m2) {
-	umap res;
-	for (const auto &i : m1) res[i.first] += i.second;
-	for (const auto &i : m2) res[i.first] += i.second;
-	for (auto it = res.begin(); it != res.end(); ) {
-		if ((*it).second > 2) res.erase(it++);
-		else ++it;
+void update(int p, int v) {
+	p++;
+	while (p <= n) {
+		ft[p] += v;
+		p += p & -p;
 	}
-	return res;
 }
 
-void build(int idx, int l, int r) {
-	if (l == r) { t[idx][a[l]] = 1; return; }
-	int m = (l + r) / 2;
-	build(idx * 2, l, m);
-	build(idx * 2 + 1, m + 1, r);
-	t[idx] = combine(t[idx * 2], t[idx * 2 + 1]);
-}
-
-umap query(int idx, int l, int r, int tl, int tr) {
-	if (tl > tr) return umap();
-	if (l == tl && r == tr) return t[idx];
-	int m = (l + r) / 2;
-	return combine(query(idx * 2, l, m, tl, min(tr, m)), query(idx * 2 + 1, m + 1, r, max(m + 1, tl), tr));
+int query(int p) {
+	p++; int res = 0;
+	while (p) {
+		res += ft[p];
+		p -= p & -p;
+	} return res;
 }
 
 int32_t main() {
 	ios::sync_with_stdio(false); cin.tie(NULL); cout.tie(NULL);
 	cin >> n >> q;
-	for (int i = 1; i <= n; i++) cin >> a[i];
-	
-	build(1, 1, n);
-	
-	while (q--) {
-		int l, r; cin >> l >> r;
-		umap m = query(1, 1, n, l, r);
-		int cnt = 0;
-		for (const auto &i : m) if (i.second == 2) cnt++;
-		cout << cnt << '\n';
+	for (int i = 0; i < n; i++) {
+		int x; cin >> x;
+		if (mp.find(x) == mp.end()) {
+			pv[i] = ppv[i] = -1;
+		} else {
+			pv[i] = mp[x];
+			ppv[i] = pv[pv[i]];
+		}
+		mp[x] = i;
 	}
+	
+	for (int i = 0; i < q; i++) {
+		int l, r; cin >> l >> r;
+		queries[i].first.first = --r, queries[i].first.second = --l;
+		queries[i].second = i;
+	}
+	
+	sort(queries, queries + q);
+
+	int pr = -1;
+	for (int i = 0; i < q; i++) {
+		int l = queries[i].first.second, r = queries[i].first.first, id = queries[i].second;
+		for (int i = pr + 1; i <= r; i++) {
+			if (pv[i] != -1) update(pv[i], 1); // second nearest set to 1
+			if (ppv[i] != -1) update(ppv[i], -2); // third nearest change to -1 to cancel second
+			if (ppv[i] != -1 && pv[ppv[i]] != -1) update(pv[ppv[i]], 1); // change all others to 0
+		}
+		pr = r; ans[id] = query(r) - query(l - 1);
+	}
+	
+	for (int i = 0; i < q; i++) cout << ans[i] << '\n';
 }

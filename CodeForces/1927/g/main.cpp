@@ -3,6 +3,8 @@ using namespace std;
 typedef long long ll;
 
 void test_case(int test) {
+    int n; cin >> n;
+    int a[n]; for (int i = 0; i < n; i++) cin >> a[i];
     
 }
 
