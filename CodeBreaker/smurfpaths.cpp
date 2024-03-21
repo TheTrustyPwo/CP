@@ -1,23 +1,18 @@
 #include <bits/stdc++.h>
 using namespace std;
-typedef long long ll;
-const int MAXN = 500005;
+#define int long long
 
-int n, x, q, cnt, a[MAXN], pre[MAXN], post[MAXN], lazy[4*MAXN];
-pair<int, int> t[4*MAXN];;
-vector<int> g[MAXN];
-
-pair<int, int> combine(const pair<int, int> l, const pair<int, int> r) {
-	if (l.first > r.first) return l;
-	else return r;
-}
+int n, x, q, cnt = 1, a[500005], pos[500005], pre[500005], post[500005];
+int lazy[1048576], ft[500005];
+pair<int, int> t[1048576];;
+vector<int> g[500005];
 
 void build(int idx, int l, int r) {
-	if (l == r) { t[idx] = make_pair(a[l], l); return; }
+	if (l == r) { t[idx] = make_pair(a[pos[l]], l); return; }
 	int m = (l + r) / 2;
 	build(idx * 2, l, m);
 	build(idx * 2 + 1, m + 1, r);
-	t[idx] = combine(t[idx * 2], t[idx * 2 + 1]);
+	t[idx] = max(t[idx * 2], t[idx * 2 + 1]);
 }
 
 void propogate(int v) {
@@ -36,43 +31,32 @@ void update(int idx, int l, int r, int a, int b, int v) {
 		int m = (l + r) / 2;
 		update(idx * 2, l, m, a, min(b, m), v);
 		update(idx * 2 + 1, m + 1, r, max(a, m + 1), b, v);
-		t[idx] = combine(t[idx * 2], t[idx * 2 + 1]);
+		t[idx] = max(t[idx * 2], t[idx * 2 + 1]);
 	}
 }
 
-pair<int, int> query(int idx, int l, int r, int a, int b) {
-	if (a > b) return make_pair(-1, -1);
-	if (a <= l && r <= b) return t[idx];
-	propogate(idx);
-	int m = (l + r) / 2;
-	return combine(query(idx * 2, l, m, a, min(b, m)), query(idx * 2 + 1, m + 1, r, max(a, m + 1), b));
+void add(int p, int v) {
+	while (p <= n) {
+		ft[p] += v;
+		p += p & -p;
+	}
 }
 
-struct FenwickTree {
-    vector<int> bit;
+int get(int p) {
+	int res = 0;
+	while (p) {
+		res += ft[p];
+		p -= p & -p;
+	}
+	return res;
+}
 
-    FenwickTree() {
-		for (int i = 0; i < n; i++) add(i, a[i] >= x);
-    }
-
-    int sum(int r) {
-        int ret = 0;
-        for (; r >= 0; r = (r & (r + 1)) - 1)
-            ret += bit[r];
-        return ret;
-    }
-
-    int sum(int l, int r) {
-        return sum(r) - sum(l - 1);
-    }
-
-    void add(int idx, int delta) {
-        for (; idx < n; idx = idx | (idx + 1))
-            bit[idx] += delta;
-    }
-} *fw;
+int sum(int l, int r) {
+	return get(r) - get(l - 1);
+}
 
 void dfs(int v, int p) {
+	pos[cnt] = v;
 	pre[v] = cnt++;
 	for (const int u : g[v])
 		if (u != p) dfs(u, v);
@@ -82,32 +66,34 @@ void dfs(int v, int p) {
 int32_t main() {
 	ios::sync_with_stdio(false); cin.tie(NULL); cout.tie(NULL);
 	cin >> n >> x;
-	for (int i = 0; i < n; i++) cin >> a[i];
+	for (int i = 1; i <= n; i++) cin >> a[i];
 	for (int i = 1; i < n; i++) {
-		int a, b; cin >> a >> b; a--; b--;
-		g[a].push_back(b);
-		g[b].push_back(a);
+		int u, v; cin >> u >> v;
+		g[u].push_back(v);
+		g[v].push_back(u);
 	}
 	
 	dfs(1, 1);
-	build(1, 0, n - 1);
-	
-	cin >> q;
-	while (q--) {
-		int t; cin >> t;
-		if (t == 1) {
-			int s, c; cin >> s >> c; s--;
-			update(1, 0, n - 1, pre[s], post[s], c);
-			pair<int, int> p = query(1, 0, n - 1, 0, n - 1);
+	for (int i = 1; i <= n; i++)
+		if (a[i] >= x) add(pre[i], 1), a[i] = -1e18;
+	build(1, 1, n);
+
+	cin >> q; while (q--) {
+		int ty; cin >> ty;
+		if (ty == 1) {
+			int s, c; cin >> s >> c;
+			update(1, 1, n, pre[s], post[s], c);
+			pair<int, int> p = t[1];
 			while (p.first >= x) {
-				a[p.second] = -1e9;
-				fw -> add(p.second, 1);
+				update(1, 1, n, p.second, p.second, -1e18);
+				add(p.second, 1);
+				p = t[1];
 			}
-		} else if (t == 2) {
-			int y; cin >> y; y--;
-			if (y == 0) { cout << 0; continue; }
-			int a = fw -> sum(n - 1), b = fw -> sum(pre[y] + 1, post[y]);
-			cout << b * (a - b) << "\n";
+		} else {
+			int y; cin >> y;
+			if (y == 1) { cout << "0\n"; continue; }
+			int in = sum(pre[y], post[y]), out = sum(1, n);
+			cout << in * (out - in) << "\n";
 		}
 	}
 }

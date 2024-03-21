@@ -19,7 +19,6 @@ void dfs(int cur) {
 
 int main() {
 	cin >> V >> E >> start;
-	
 	for (int i = 0; i < E; i++) {
 		cin >> A >> B;
 		g[A].push_back(B);

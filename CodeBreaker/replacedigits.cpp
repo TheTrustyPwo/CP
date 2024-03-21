@@ -1,56 +1,52 @@
 #include <bits/stdc++.h>
 using namespace std;
 #define int long long
-const int MAXN = 100005;
+const int M = 998244353;
 
-int n, m;
-string a[MAXN], lazy[4*MAXN], t[4*MAXN];
+int n, q, tens[200005];
+int t[524288], lazy[524288], s[524288];
 
 void build(int idx, int l, int r) {
-	if (l == r) { t[idx] = a[l]; return; }
+	lazy[idx] = 0;
+	if (l == r) { t[idx] = s[idx] = tens[l]; return; }
 	int m = (l + r) / 2;
 	build(idx * 2, l, m);
 	build(idx * 2 + 1, m + 1, r);
-	t[idx] = t[idx * 2] + t[idx * 2 + 1];
+	t[idx] = (t[idx * 2] + t[idx * 2 + 1]) % M;
+	s[idx] = (s[idx * 2] + s[idx * 2 + 1]) % M;
 }
 
-void propogate(int v) {
-	t[v * 2] = lazy[v], lazy[v * 2] = lazy[v];
-    t[v * 2 + 1] = lazy[v], lazy[v * 2 + 1] = lazy[v];
-    lazy[v] = "0";
-}
-
-void update(int idx, int l, int r, int a, int b, string v) {
-	if (a > b) return;
-	if (l == a && r == b) {
-		t[idx] += v;
-		lazy[idx] += v;
-	} else {
-		propogate(idx);
-		int m = (l + r) / 2;
-		update(idx * 2, l, m, a, min(b, m), v);
-		update(idx * 2 + 1, m + 1, r, max(a, m + 1), b, v);
-		t[idx] = t[idx * 2] + t[idx * 2 + 1];
+void push(int idx) {
+	if (lazy[idx]) {
+		lazy[idx * 2] = lazy[idx * 2 + 1] = lazy[idx];
+		t[idx * 2] = (lazy[idx] * s[idx * 2]) % M;
+		t[idx * 2 + 1] = (lazy[idx] * s[idx * 2 + 1]) % M;
+		lazy[idx] = 0;
 	}
 }
 
-string query(int idx, int l, int r, int a, int b) {
-	if (a > b) return "";
-	if (a <= l && r <= b) return t[idx];
-	propogate(idx);
+void update(int idx, int l, int r, int tl, int tr, int v) {
+	if (tl <= l && r <= tr) {
+		t[idx] = (s[idx] * v) % M;
+		lazy[idx] = v;
+		return;
+	}
+	push(idx);
 	int m = (l + r) / 2;
-	return query(idx * 2, l, m, a, min(b, m)) + query(idx * 2 + 1, m + 1, r, max(a, m + 1), b);
+	if (tl <= m) update(idx * 2, l, m, tl, tr, v);
+	if (tr > m) update(idx * 2 + 1, m + 1, r, tl, tr, v);
+	t[idx] = (t[idx * 2] + t[idx * 2 + 1]) % M;
 }
-
 
 int32_t main() {
 	ios::sync_with_stdio(false); cin.tie(NULL); cout.tie(NULL);
-	cin >> n >> m;
-	for (int i = 0; i < n; i++) a[i] = "1";
+	cin >> n >> q;
+	tens[n] = 1; for (int i = n - 1; i >= 1; i--) tens[i] = (tens[i + 1] * 10) % M;
+	
 	build(1, 1, n);
-	while (m--) {
-		int a, b; string s; cin >> a >> b >> s;
-		update(1, 1, n, a, b, s);
-		cout << query(1, 1, n, 1, n) << '\n';
+	while (q--) {
+		int a, b, v; cin >> a >> b >> v;
+		update(1, 1, n, a, b, v);
+		cout << t[1] << '\n';
 	}
 }

@@ -3,7 +3,7 @@ using namespace std;
 typedef long long ll;
 #define int long long
 
-int n, q, c, ar[100005], ft[100005];
+int n, q, ar[500005], ft[500005];
 set<int> s;
 
 void update(int x, int v){
@@ -28,30 +28,30 @@ int query(int x, int y){
 
 int32_t main() {
 	ios::sync_with_stdio(false); cin.tie(NULL); cout.tie(NULL);
-	cin >> n >> q >> c;
+	cin >> n >> q;
 	for (int i = 1; i <= n; i++) {
 		cin >> ar[i];
 		update(i, ar[i]);
 		if (ar[i]) s.insert(i);
 	}
 	
-	int t, a, b;
+	int t, a, b, c;
 	while (q--) {
 		cin >> t;
-		if (t == 2) {
-			cin >> a >> b;
+		if (t == 0) {
+			cin >> a >> b >> c; a++; b++;
 			for (auto it = s.lower_bound(a); it != s.end() && *it <= b;) {
 				update(*it, ar[*it] / c - ar[*it]);
 				ar[*it] /= c;
 				if (ar[*it] == 0) it = s.erase(it);
-				else it++;
+				else ++it;
 			}
 		} else if (t == 1) {
-			cin >> a >> b;
+			cin >> a >> b; a++;
 			update(a, b - ar[a]);
 			ar[a] = b; s.insert(a);
 		} else {
-			cin >> a >> b;
+			cin >> a >> b; a++; b++;
 			cout << query(a, b) << '\n';
 		}
 	}
