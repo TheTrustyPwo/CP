@@ -4,11 +4,24 @@ typedef long long ll;
 
 void test_case(int test) {
     int n; cin >> n;
-    cout << 2 * n << ' ';
-    for (int i = 2; i <= n * 2 - 2; i += 2) cout << i << ' ';
-    cout << '\n';
-    for (int i = 1; i <= n * 2 - 2; i += 2) cout << i << ' ';
-    cout << 2 * n - 1 << '\n';
+    int c1 = 1, c2 = n + 1; bool b1 = 1;
+    for (int i = 0; i < 2; i++) {
+        for (int j = 0; j < n; j++) {
+            int dist = i + j;
+            if (dist & 1) {
+                cout << c1 << ' ';
+                c1++;
+            } else {
+                if (b1) {
+                    cout << 2 * n << ' ';
+                    b1 = 0;
+                } else {
+                    cout << c2 << ' ';
+                    c2++;
+                }
+            }
+        } cout << '\n';
+    }
 }
 
 int32_t main() {
