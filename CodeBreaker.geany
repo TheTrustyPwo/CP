@@ -28,7 +28,11 @@ long_line_behaviour=1
 long_line_column=72
 
 [files]
+<<<<<<< Updated upstream
 current_page=334
+=======
+current_page=326
+>>>>>>> Stashed changes
 FILE_NAME_0=113;C++;0;EUTF-8;1;1;0;C%3A%5CUsers%5CShuce%5Cprojects%5CCodeBreaker%5Cpandaeyes.cpp;0;4
 FILE_NAME_1=358;C++;0;EUTF-8;1;1;0;C%3A%5CUsers%5CShuce%5Cprojects%5CCodeBreaker%5Cchinese.cpp;0;4
 FILE_NAME_2=1030;C++;0;EUTF-8;1;1;0;C%3A%5CUsers%5CShuce%5Cprojects%5CCodeBreaker%5Ccar.cpp;0;4
@@ -350,6 +354,7 @@ FILE_NAME_317=550;C++;0;EUTF-8;1;1;0;C%3A%5CUsers%5CShuce%5Cprojects%5CCodeBreak
 FILE_NAME_318=1839;C++;0;EUTF-8;1;1;0;C%3A%5CUsers%5CShuce%5Cprojects%5CCodeBreaker%5Cghostrule.cpp;0;4
 FILE_NAME_319=581;C++;0;EUTF-8;1;1;0;C%3A%5CUsers%5CShuce%5Cprojects%5CCodeBreaker%5Cboxes2.cpp;0;4
 FILE_NAME_320=106;C++;0;EUTF-8;1;1;0;C%3A%5CUsers%5CShuce%5Cprojects%5CCodeBreaker%5Cshops.cpp;0;4
+<<<<<<< Updated upstream
 FILE_NAME_321=623;C++;0;EUTF-8;1;1;0;C%3A%5CUsers%5CShuce%5Cprojects%5CCodeBreaker%5Cexplosives.cpp;0;4
 FILE_NAME_322=220;C++;0;EUTF-8;1;1;0;C%3A%5CUsers%5CShuce%5Cprojects%5CCodeBreaker%5Cpenguinmountain.cpp;0;4
 FILE_NAME_323=386;C++;0;EUTF-8;1;1;0;C%3A%5CUsers%5CShuce%5Cprojects%5CCodeBreaker%5Cwabbit.cpp;0;4
@@ -364,6 +369,14 @@ FILE_NAME_331=1772;C++;0;EUTF-8;1;1;0;C%3A%5CUsers%5CShuce%5Cprojects%5CCodeBrea
 FILE_NAME_332=0;C++;0;EUTF-8;1;1;0;C%3A%5CUsers%5CShuce%5Cprojects%5CCodeBreaker%5Cburgers.cpp;0;4
 FILE_NAME_333=343;C++;0;EUTF-8;1;1;0;C%3A%5CUsers%5CShuce%5Cprojects%5CCodeBreaker%5Cstones.cpp;0;4
 FILE_NAME_334=1826;C++;0;EUTF-8;1;1;0;C%3A%5CUsers%5CShuce%5Cprojects%5CCodeBreaker%5Cpigeonnests.cpp;0;4
+=======
+FILE_NAME_321=380;C++;0;EUTF-8;1;1;0;C%3A%5CUsers%5CShuce%5Cprojects%5CCodeBreaker%5Cmotivation.cpp;0;4
+FILE_NAME_322=298;C++;0;EUTF-8;1;1;0;C%3A%5CUsers%5CShuce%5Cprojects%5CCodeBreaker%5Ctourist_noi.cpp;0;4
+FILE_NAME_323=299;C++;0;EUTF-8;1;1;0;C%3A%5CUsers%5CShuce%5Cprojects%5CCodeBreaker%5Cparty_noi.cpp;0;4
+FILE_NAME_324=735;C++;0;EUTF-8;1;1;0;C%3A%5CUsers%5CShuce%5Cprojects%5CCodeBreaker%5Cphoto.cpp;0;4
+FILE_NAME_325=1764;C++;0;EUTF-8;1;1;0;C%3A%5CUsers%5CShuce%5Cprojects%5CCodeBreaker%5Cpark.cpp;0;4
+FILE_NAME_326=1798;C++;0;EUTF-8;1;1;0;C%3A%5CUsers%5CShuce%5Cprojects%5CCodeBreaker%5Cnetwork.cpp;0;4
+>>>>>>> Stashed changes
 
 [build-menu]
 C++FT_00_LB=_Compile

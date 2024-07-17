@@ -22,6 +22,8 @@ void test_case(int test) {
         }
         low[i] = dq.front().first;
     }
+
+    
 }
 
 int32_t main() {
