@@ -12,7 +12,7 @@ void test_case(int test) {
                 cur = max(cur, (j - idx + 1) / 2), idx = j;
             }
         }
-        // cout << i << ' ' << cur << '\n';
+        // cout << i << ' ' << cur << '\n'; 
         mn = min(mn, cur);
     }
     cout << mn << '\n';
