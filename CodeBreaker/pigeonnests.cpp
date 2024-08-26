@@ -8,6 +8,7 @@ vector<pair<int, int>> g[N];
 int z = 0, pos[N], pre[N], post[N], dist[N];
 pair<int, int> t[4 * N];
 int lazy[4 * N];
+bool used[N];
 
 void build(int idx, int l, int r) {
 	if (l == r) { t[idx] = make_pair(dist[pos[l]], l); return; }
@@ -40,7 +41,7 @@ void update(int idx, int l, int r, int tl, int tr, int v) {
 }
 
 pair<int, int> query(int idx, int l, int r, int tl, int tr) {
-	if (tl > tr) return make_pair(-1e9, -1);
+	if (tl > tr) return make_pair(-1e15, -1);
 	if (l == tl && r == tr) return t[idx];
 	push(idx);
 	int m = (l + r) / 2;
@@ -68,23 +69,22 @@ int32_t main() {
 	}
 	
 	dfs(0, 0, 0);
-	build(0, 0, n - 1);
-	
-	for (int i = 0; i < n; i++) cout << pre[i] << ' ' << post[i] << ' ' << query(0, 0, n - 1, pre[i], post[i]).first << '\n';
+	build(1, 0, n - 1);
 	
 	while (q--) {
 		int type, x; cin >> type >> x;
 		if (type == 1) {
-			pair<int, int> res = query(0, 0, n - 1, pre[x], post[x]);
-			int v = res.second;
-			if (v == -1) {
+			int v = query(1, 0, n - 1, pre[x], post[x]).second;
+			if (v == -1 || used[x]) {
 				cout << -1 << '\n';
 				continue;
 			}
-			cout << v << ' ' << res.first << '\n';
-			update(0, 0, n - 1, pre[v], post[v], -1e12);
+			cout << v << '\n';
+			used[v] = 1;
+			update(1, 0, n - 1, pre[v], post[v], -1e12);
 		} else {
-			update(0, 0, n - 1, pre[x], post[x], 1e12);
+			used[x] = 0;
+			update(1, 0, n - 1, pre[x], post[x], 1e12);
 		}
 	}
 }
